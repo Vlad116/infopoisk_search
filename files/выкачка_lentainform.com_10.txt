@@ -1,0 +1,324 @@
+Lentainform - Эффективная система рекомендации контента
+Присоединяйтесь и получите еще больше интересных новостей
+Войти
+Добро пожаловать
+войдите через социальные сети
+о проекте
+О проекте
+lentainform.com — новостной агрегатор. Мы автоматически
+собираем новости интернет-СМИ и ранжируем их по
+времени публикации, а также по популярности, основанной на количестве просмотров посетителями. Рядом с
+заголовком каждой статьи указано количество ее прочтений на текущий момент. Статистика обновляется в
+режиме онлайн.
+Можно посмотреть ленту популярных материалов за час, сутки или за неделю, а также выбрать конкретную
+тематику и получить выборку новостей по ней. На lentainform.com публикуются новости следующих тематик:
+политика, общество, спорт, экономика, шоу-бизнес, недвижимость, здоровье и красота, авто, кулинария,
+мода и стиль, наука и технологии, дети и родители, туризм, образ жизни. Каждая из тематик представлена в
+меню сайта.
+Материалы, отсортированные по времени публикации, размещены в блоке «Последние новости» на главной
+странице и страницах тематических рубрик. При клике на заголовок новости происходит переход на сайт
+издания, которое ее опубликовало.
+Для СМИ
+Мы очень дорожим доверием читателей и внимательно относимся к отбору поставщиков контента. Поэтому
+сотрудничаем только с изданиями, имеющими свидетельство о регистрации в качестве средства массовой
+информации. Участие в ранжировании, а также размещение анонсов статей и других редакционных материалов в
+новостном агрегаторе lentainform.com абсолютно бесплатно.
+Подать заявку на участие вы можете на
+странице https://partner.lentainform.com/. Для попадания
+контента в новостной агрегатор необходимо
+разместить код Lentainform на сайте вашего издания. Мы открыты к сотрудничеству. По всем вопросам
+обращайтесь на support@lentainform.com.
+Для читателей
+Мы стремимся к тому, чтобы пользование lentainform.com
+приносило удовольствие, и читатели возвращались к
+нам снова. Для удобства чтения вы можете настроить свою персонализированную новостную ленту. Сделать это
+очень просто: в меню нужно нажать кнопку «Войти». Система предложит зарегистрироваться/войти с помощью
+популярных соц. сетей: odnoklassniki, vk, mail.ru, facebook, twitter или google+. После этого вы сможете
+выбрать список СМИ и тематику новостей, которая вас интересует. Также предусмотрена возможность
+подписаться на рассылку популярных новостей. При
+нажатии на кнопку «сохранить» выбранные настройки сохраняются. Теперь у вас есть своя
+персонализированная новостная лента! О том, удобно ли ей пользоваться, а также если у вас есть другие
+вопросы и предложения, пишите на support@lentainform.com.
+Контакты
++7(495)128-14-34,
++7(495)128-05-41
+support@lentainform.com
+Вы действительно хотите исключить сайт “” из своей ленты новостей?
+Персонализируй свою ленту новостей
+Выбор тематики
+Политика
+Общество
+Спорт
+Экономика
+Шоу-бизнес
+Заблокированые источники
+Сохранить
+Нажмите «Нравится», чтобы
+читать Lentainform в Facebook
+Спасибо, я уже с вами
+Коронавирус
+Политика
+Общество
+Спорт
+Экономика
+Шоу-бизнес
+Знаменитости
+eщё
+войти
+час
+день
+неделя
+USD 74.18
+EUR 89.34
+Tatarstan: -17°C
+О проекте
+Другие новости
+Последние новости
+{{ var i = 0; }}
+{{~it : news}}
+{{? (loadingNews.category && loadingNews.pageNews == 1 && i == 0) }}
+главные новости
+{{?news.categoryId}}
+{{=loadingNews.categoriesRu[news.categoryId]}}
+{{?}}
+{{=news.clicks}}
+{{=news.title}}
+{{?news.description}}
+{{=news.description}}...
+{{?}}
+{{=news.domain}}
+Если Вы хотите заблокировать все новости данного источника, пожалуйста Зарегистрируйтесь
+{{=news.createdAt}}
+{{?news.similarNews}}
+ещё
+{{~news.similarNews : similar}}
+{{=similar.domain}}
+{{=similar.createdAt}}
+{{=similar.title}}
+{{~}}
+{{?}}
+{{?? (loadingNews.targetNews != news.id) }}
+{{? loadingNews.category}}
+{{?news.categoryId}}
+{{=loadingNews.categoriesRu[news.categoryId]}}
+{{?}}
+{{=news.clicks}}
+{{=news.title}}
+{{?news.description}}
+{{=news.description}}...
+{{?}}
+{{=news.domain}}
+Если Вы хотите заблокировать все новости данного источника, пожалуйста Зарегистрируйтесь
+{{=news.createdAt}}
+{{??}}
+{{? loadingNews.pageNews == 1 && i == 0 }}
+Главное
+{{?}}
+{{=news.domain}}
+Если Вы хотите заблокировать все новости данного источника, пожалуйста Зарегистрируйтесь
+{{=news.createdAt}}
+{{=news.title}}
+{{=news.clicks}}
+{{?}}
+{{?}}
+{{ i++; }}
+{{~}}
+{{var i = 0; }}
+{{~it : targetNews}}
+{{?(i == 0 && loadingNews.targetNews == targetNews.id)}}
+{{=targetNews.domain}}
+{{=targetNews.createdAt}}
+{{=targetNews.clicks}}
+{{=targetNews.title}}
+{{?targetNews.description}}
+{{=targetNews.description}}
+{{?}}
+Читать полностью новость на сайте {{=targetNews.domain}}
+Поделиться:
+{{?? (i == 0) }}
+{{=targetNews.domain}}
+{{=targetNews.createdAt}}
+{{=targetNews.clicks}}
+{{=targetNews.title}}
+{{?targetNews.description}}
+{{=targetNews.description}}
+{{?}}
+{{? loadingNews.targetNews }}
+{{=loadingNews.targetNews}}
+{{?}}
+{{??(i > 0)}}
+{{?(i == 1)}}
+Сейчас в СМИ
+{{?}}
+{{=targetNews.domain}}
+{{=targetNews.createdAt}}
+{{?targetNews.title}}
+{{=targetNews.title}}
+{{?}}
+{{?(i == 3)}}
+{{?}}
+{{?}}
+{{i++;}}
+{{~}}
+{{ var i = 0; }}
+{{? loadingNews.loadTargetAccentNews }}
+{{=loadingNews.currentCategoryName}}
+{{~it : newsCollection}}
+{{? i == 2 }}
+{{=newsCollection.clicks}}
+{{=newsCollection.title}}
+{{?newsCollection.description}}
+{{=newsCollection.description}}
+{{?}}
+{{=newsCollection.domain}}
+Если Вы хотите заблокировать все новости данного источника, пожалуйста Зарегистрируйтесь
+{{=newsCollection.createdAt}}
+{{??}}
+{{=newsCollection.title}}
+{{=newsCollection.clicks}}
+{{? (i == 1 && newsCollection.description) }}
+{{=newsCollection.description}}
+{{?}}
+{{=newsCollection.domain}}
+Если Вы хотите заблокировать все новости данного источника, пожалуйста Зарегистрируйтесь
+{{=newsCollection.createdAt}}
+{{?}}
+{{ i++; }}
+{{~}}
+{{??}}
+{{=loadingNews.currentCategoryName}}
+{{~it : newsCollection}}
+{{? i == 1 }}
+{{=newsCollection.title}}
+{{=newsCollection.clicks}}
+{{=newsCollection.domain}}
+Если Вы хотите заблокировать все новости данного источника, пожалуйста Зарегистрируйтесь
+{{=newsCollection.createdAt}}
+{{??}}
+{{=newsCollection.clicks}}
+{{=newsCollection.title}}
+{{=newsCollection.clicks}}
+{{?newsCollection.description}}
+{{=newsCollection.description}}
+{{?}}
+{{=newsCollection.domain}}
+Если Вы хотите заблокировать все новости данного источника, пожалуйста Зарегистрируйтесь
+{{=newsCollection.createdAt}}
+{{?}}
+{{ i++; }}
+{{~}}
+{{?}}
+{{~it : hot}}
+{{=hot.domain}}
+{{=hot.createdAt}}
+{{=hot.title}}
+{{~}}
+{{~it : search}}
+{{=search.createdAt}}
+{{=loadingNews.highlightTitle(search.title)}}
+{{=search.clicks}}
+{{~}}
+{{ var i = 0;}}
+{{? loadingNews.loadingMainBottomLeft }}
+{{~it : news}}
+{{ i++; }}
+{{? (i % 2 == 0) }}
+{{ var j = 0; }}
+{{~news : newsCollection}}
+{{? j == 2 }}
+{{=newsCollection.clicks}}
+{{=newsCollection.title}}
+{{?newsCollection.description}}
+{{=newsCollection.description}}
+{{?}}
+{{=newsCollection.domain}}
+Если Вы хотите заблокировать все новости данного источника, пожалуйста Зарегистрируйтесь
+{{=newsCollection.createdAt}}
+{{??}}
+{{=newsCollection.title}}
+{{=newsCollection.clicks}}
+{{? (i == 1 && newsCollection.description) }}
+{{=newsCollection.description}}
+{{?}}
+{{=newsCollection.domain}}
+Если Вы хотите заблокировать все новости данного источника, пожалуйста Зарегистрируйтесь
+{{=newsCollection.createdAt}}
+{{?}}
+{{ j++; }}
+{{~}}
+{{??}}
+{{ var k = 0; }}
+{{~news : newsCollection}}
+{{? k == 1 }}
+{{=newsCollection.title}}
+{{=newsCollection.clicks}}
+{{=newsCollection.domain}}
+Если Вы хотите заблокировать все новости данного источника, пожалуйста Зарегистрируйтесь
+{{=newsCollection.createdAt}}
+{{??}}
+{{=newsCollection.clicks}}
+{{=newsCollection.title}}
+{{=newsCollection.clicks}}
+{{?newsCollection.description}}
+{{=newsCollection.description}}
+{{?}}
+{{=newsCollection.domain}}
+Если Вы хотите заблокировать все новости данного источника, пожалуйста Зарегистрируйтесь
+{{=newsCollection.createdAt}}
+{{?}}
+{{ k++; }}
+{{~}}
+{{?}}
+{{~}}
+{{??}}
+{{~it : news}}
+{{ i++; }}
+{{? (i % 2 == 0) }}
+{{ var k = 0; }}
+{{~news : newsCollection}}
+{{? k == 1 }}
+{{=newsCollection.title}}
+{{=newsCollection.clicks}}
+{{=newsCollection.domain}}
+Если Вы хотите заблокировать все новости данного источника, пожалуйста Зарегистрируйтесь
+{{=newsCollection.createdAt}}
+{{??}}
+{{=newsCollection.clicks}}
+{{=newsCollection.title}}
+{{=newsCollection.clicks}}
+{{?newsCollection.description}}
+{{=newsCollection.description}}
+{{?}}
+{{=newsCollection.domain}}
+Если Вы хотите заблокировать все новости данного источника, пожалуйста Зарегистрируйтесь
+{{=newsCollection.createdAt}}
+{{?}}
+{{ k++; }}
+{{~}}
+{{??}}
+{{ var j = 0; }}
+{{~news : newsCollection}}
+{{? j == 2 }}
+{{=newsCollection.clicks}}
+{{=newsCollection.title}}
+{{?newsCollection.description}}
+{{=newsCollection.description}}
+{{?}}
+{{=newsCollection.domain}}
+Если Вы хотите заблокировать все новости данного источника, пожалуйста Зарегистрируйтесь
+{{=newsCollection.createdAt}}
+{{??}}
+{{=newsCollection.title}}
+{{=newsCollection.clicks}}
+{{? (i == 1 && newsCollection.description) }}
+{{=newsCollection.description}}
+{{?}}
+{{=newsCollection.domain}}
+Если Вы хотите заблокировать все новости данного источника, пожалуйста Зарегистрируйтесь
+{{=newsCollection.createdAt}}
+{{?}}
+{{ j++; }}
+{{~}}
+{{?}}
+{{~}}
+{{?}}
