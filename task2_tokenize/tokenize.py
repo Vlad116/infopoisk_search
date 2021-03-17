@@ -7,11 +7,6 @@ from pymystem3 import Mystem
 from string import punctuation
 from collections import Counter
 
-# try:
-#     from BeautifulSoup import BeautifulSoup
-# except ImportError:
-#     from bs4 import BeautifulSoup
-
 nltk.download("stopwords") # used only for first time
 
 words_path = 'words.txt'
@@ -40,7 +35,7 @@ for i in range(files_len):
     file.close()
 
     # makes normalization faster
-    sentence = re.sub(r"[\n\s.,:–\\?—\-!()/«»'#№{}\[\]%|+©\"]+", " ", file_content, flags=re.UNICODE).lower()
+    sentence = re.sub(r"[\n\s.,:–\\?—\-!()/«»'#№{}\[\]→%|+®©\"]+", " ", file_content, flags=re.UNICODE).lower()
     sentence = re.sub(r"[\d+]", "", sentence, flags=re.UNICODE)
 
     tokens = [token for token in sentence.split(" ") if token not in russian_stopwords \
@@ -60,10 +55,22 @@ for key, value in words_dict.items():
     words_file.write(key + " " + str(value) + "\n")
 words_file.close()
 
+# with open(words_path,"r",encoding="utf-8") as word_file:
+#     word_list = [line.split(None, 1)[0] for line in word_file]
+#
+# words_dict = Counter(word_list)
+# words_dict_len = len(words_dict)
+
+# with open("file.txt", "r") as ins:
+#     array = []
+#     for line in ins:
+#         array.append(line)
+
 tokens = {}
 print('Lemmatizing words to file......................')
 i = 1
-for word,count in words_dict.items():
+
+for word, count in words_dict.items():
     print(str(word) + ' ' + str(count))
     print('Processing word ' + str(i) + '/' + str(words_dict_len) + '. ' + word)
     token = mystem.lemmatize(word)[0]
@@ -77,6 +84,8 @@ print("Dumping tokens to file......................")
 tokens_file = open(tokens_path, "a", encoding="utf-8")
 
 for key, words_tokens in tokens.items():
+    print(key)
+    print(words_tokens)
     tokens_file.write(key + " ")
     for word in words_tokens:
         tokens_file.write(word + " ")
