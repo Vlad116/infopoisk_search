@@ -1,0 +1,11 @@
+beautifulsoup4==4.9.3
+chardet==4.0.0
+click==7.1.2
+idna==2.10
+joblib==1.0.1
+nltk==3.5
+pymystem3==0.2.0
+regex==2020.11.13
+requests==2.25.1
+tqdm==4.59.0
+urllib3==1.26.3
