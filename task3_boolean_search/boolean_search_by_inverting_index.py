@@ -75,7 +75,7 @@ file_to_terms = process_files(file_names)
 regular_index = make_indices(file_to_terms)
 total_index = fullIndex(regular_index)
 print("Inverted Index has been prepared and it took:")
-print('{} seconds'.format(time.time() - start_time))\
+print('{} seconds'.format(time.time() - start_time))
 
 # 2. Реализовать булев поиск по построенному индексу
 

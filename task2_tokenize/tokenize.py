@@ -40,7 +40,6 @@ for i in range(files_len):
 
     tokens = [token for token in sentence.split(" ") if token not in russian_stopwords \
               and token != " " \
-
               and token.strip() not in punctuation]
     words.extend(tokens)
 

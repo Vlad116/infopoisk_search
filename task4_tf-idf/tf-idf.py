@@ -1,153 +1,119 @@
+from os import listdir
+from os.path import isfile, join
+import re
 import nltk
+from nltk.corpus import stopwords
+from string import punctuation
 import pymorphy2
 import pandas
 from collections import Counter
+from collections import defaultdict, OrderedDict
 import math
 import numpy
+
+# nltk.download("stopwords") # used only for first time
+russian_stopwords = stopwords.words("russian")
 morgh = pymorphy2.MorphAnalyzer()
 
-# df1 = pandas.read_excel("C:/Users/vlada/PycharmProjects/KinopoiskPymorphy2/allmovies.xlsx", delimiter=',', encoding='UTF-8')
-# print(df1)
+# def to_normal_form(word):
+#     p = morgh.parse(word)[0]
+#     print(p.normal_form)
+#     return p.normal_form
+
 # Подсчитать tf каждого термина
+def computeTF(wordDict, bow):
+    tfDict = {}
+    bowCount = len(bow)
+    for word, count in wordDict.items():
+        tfDict[word] = count/float(bowCount)
+    return tfDict
 
 # Подсчитать idf
+def computeIDF(docList):
+    import math
+    idfDict = {}
+    N = len(docList)
+
+    idfDict = dict.fromkeys(docList[0].keys(), 0)
+    for doc in docList:
+        for word, val in doc.items():
+            if val > 0:
+                idfDict[word] += 1
+
+    for word, val in idfDict.items():
+        idfDict[word] = math.log10(N / float(val))
+
+    return idfDict
 
 # Подсчитать tf-idf
+def computeTFIDF(tfBow, idfs):
+    tfidf = {}
+    for word, val in tfBow.items():
+        tfidf[word] = val*idfs[word]
+    return tfidf
 
-# Записать в файл по списком терминов  (Формат строк: <термин><пробел><idf><пробел><tf-idf><\n>)
+files_path = '../files'
+files = [f for f in listdir(files_path) if isfile(join(files_path, f))]
+print(files)
 
-def to_normal_form(word):
-    p = morgh.parse(word)[0]
-    print(p.normal_form)
-    return p.normal_form
+files_words = []
 
-#Все отзывы
+for file_name in files:
+    file = open(files_path + '/' + file_name, "r", encoding="utf-8")
+    file_content = file.read().replace('<b>', ' ')
 
-f = open("../garbage/out.txt", 'w')
+    sentence = re.sub(r"[\n\s.,:–\\?—\-!()/«»'#№{}\[\]→%|+®©\"]+", " ", file_content, flags=re.UNICODE).lower()
+    sentence = re.sub(r"[\d+]", "", sentence, flags=re.UNICODE)
 
-df = pandas.read_csv('movies.csv', delimiter=',', encoding='windows-1251',
-                     names=['review', 'film_name', 'tone_of_the_review'])
+    tokens = [token for token in sentence.split(" ") if token not in russian_stopwords \
+              and token != " " \
+              and token.strip() not in punctuation]
 
-for tuple in df.values:
-    words = tuple[1].split()
-    for word in words:
-        f.write(to_normal_form(word) + '\n')
+    files_words.append(tokens)
 
-f.close()
+wordSet = set([item for sublist in files_words for item in sublist])
 
-#Все положительные отзывы
+fileWordDictionaries = []
 
-f = open("../garbage/good.txt", 'w')
+for i in range(len(files_words)):
+    fileWordDictionaries.append(dict.fromkeys(wordSet,0))
+    for word in files_words[i]:
+        fileWordDictionaries[i][word] += 1
 
-df = pandas.read_csv('movies.csv', delimiter=',', encoding='windows-1251',
-                     names=['review', 'film_name', 'tone_of_the_review'])
+df = pandas.DataFrame(fileWordDictionaries)
 
-for tuple in df.values:
-    if tuple[2] == 1:
-        words = tuple[1].split()
-        for word in words:
-            f.write(to_normal_form(word) + '\n')
+tfDictionaries = []
 
-f.close()
+for i in range(len(fileWordDictionaries)):
+    tfDictionaries.append(computeTF(fileWordDictionaries[i],files_words[i]))
 
-#Все отрицательные отзывы
+df_TF = pandas.DataFrame(tfDictionaries)
 
-f = open("../garbage/good.txt", 'w')
+idfs = computeIDF(fileWordDictionaries)
 
-df = pandas.read_csv('movies.csv', delimiter=',', encoding='windows-1251',
-                     names=['review', 'film_name', 'tone_of_the_review'])
+tfIdfDictionaries = []
 
-for tuple in df.values:
-    if tuple[2] == -1:
-        words = tuple[1].split()
-        for word in words:
-            f.write(to_normal_form(word) + '\n')
+for i in range(len(tfDictionaries)):
+    tfIdfDictionaries.append(computeTFIDF(tfDictionaries[i],idfs))
 
-f.close()
+df_TF_IDF = pandas.DataFrame(tfIdfDictionaries)
 
-# Все документы
-positive = open("../garbage/positive.txt", "r")
-negative = open("../garbage/negative.txt", "r")
-all = open("../garbage/all.txt", "r")
+tfIdfSumDict = {}
 
-# Списки слов по каждому документу
-bagOfPositive = positive.read().split("\n")
-bagOfNegative = negative.read().split("\n")
-bagOfAll = all.read().split("\n")
+for col_name in df_TF_IDF.columns:
+    # print(df_TF_IDF[col_name].sum())
+    tfIdfSumDict[col_name]=df_TF_IDF[col_name].sum()
 
-#Убрать дублирующиеся слова
-uniqueWords = set(bagOfPositive).union(set(bagOfNegative).union(set(bagOfAll)))
+to_path = 'tf_idf.txt'
+print("Dumping to file......................")
+output_file = open(to_path, "a", encoding="utf-8")
+# output_file.write("слово idf tf-idf\n")
+for key in sorted(tfIdfSumDict):
+    print(key)
+    print(tfIdfSumDict[key])
+    output_file.write(key + " " + str(idfs[key]) + " " + str(tfIdfSumDict[key]))
+    output_file.write("\n")
 
-# Формируем для каждого документа словарь в котором ключ - это слово, а значение его частота в документе
-mapOfWordsPositive = dict.fromkeys(uniqueWords, 0)
-mapOfWordsNegative = dict.fromkeys(uniqueWords, 0)
-mapOfAllWords = dict.fromkeys(uniqueWords, 0)
-
-for word in bagOfPositive:
-    mapOfWordsPositive[word] += 1
-for word in bagOfNegative:
-    mapOfWordsNegative[word] += 1
-for word in bagOfAll:
-    mapOfAllWords[word] += 1
-
-# Фун-ия высчитывающая TF для каждого слова в документе
-def computeTF(wordDictionary, bagOfWords):
-    tfDictionary = {}
-    bagOfWordsCount = len(bagOfWords)
-    for word, count in wordDictionary.items():
-        tfDictionary[word] = count / float(bagOfWordsCount)
-    return tfDictionary
-
-
-# получили Map, где ключ - слово, а значение - его TF
-tfPositive = computeTF(mapOfWordsPositive, bagOfPositive)
-tfNegative = computeTF(mapOfWordsNegative, bagOfNegative)
-tfAll = computeTF(mapOfAllWords, bagOfAll)
-
-# функция высчитывающая значение IDF
-def computeIDF(documents):
-    N = len(documents)
-    idfDictionary = dict.fromkeys(documents[0].keys(), 0)
-    for document in documents:
-        for word, val in document.items():
-            if val > 0:
-                idfDictionary[word] += 1
-
-    for word, val in idfDictionary.items():
-        idfDictionary[word] = math.log(N / float(val))
-    return idfDictionary
-
-# Получаем словарь, в котором ключ - слово, а значение - его IDF
-idf = computeIDF([mapOfAllWords, mapOfWordsPositive, mapOfWordsNegative])
-
-# фун-ия высчитывает tf-idf для каждого слова
-def compute_TF_IDF(tfBagOfWords, idfs):
-    tfIdf = {}
-    for word, val in tfBagOfWords.items():
-        tfIdf[word] = val * idfs[word]
-    return tfIdf
-
-# получаем словари для каждого документа, в котором ключ-слово, а значение tf-idf
-tfIdfPositive = compute_TF_IDF(tfPositive, idf)
-tfIdfNegative = compute_TF_IDF(tfNegative, idf)
-tfIdfAll = compute_TF_IDF(tfAll, idf)
-
-# Суммируем tf-idf каждого документа для каждого слова
-df.loc['Total',:] = df.sum(axis=0)
-
-# Ранжируем по метрике TF-IDF
-total = sorted([(value, key) for (key, value) in df.tail(1).to_dict("index")["Total"].items()], reverse=True)
-print(total)
-
-# Берем топ 10 эл-тов
-first10values = total[:10]
-for item in first10values:
-    print(item)
-
-
-# Берем топ 10 среди положительных
-positiveFrame = sorted([(value, key) for (key, value) in df.head(1).to_dict("index")[0].items()], reverse=True)
-
-positiveFirst10Values = positiveFrame[:10]
-for item in positiveFirst10Values:
-    print(item)
+# for col_name in sorted(tfIdfSumDict):
+# df_TF_IDF_Sum = pandas.DataFrame([df.sum()], index=['sum'])
+# print(df_TF_IDF_Sum)
